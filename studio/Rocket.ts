@@ -2,7 +2,7 @@ import { Astronaut } from './Astronaut';
 import { Cargo } from './Cargo';
 import { Payload } from './Payload';
 console.log('hello');
-export class Rocket implements Payload{
+export class Rocket {
     
     name: string;
     totalCapacityKg: number;
@@ -14,7 +14,7 @@ export class Rocket implements Payload{
         this.totalCapacityKg = totalCapacityKg;
         
     }
-    massKg!: number;
+    
     //astronaut class doesnt implement payload?
 //take in array of payloads, 
 //call .massKG property to add to total mass 
@@ -24,6 +24,20 @@ export class Rocket implements Payload{
             totalMass += items[index].massKg;
         }
         return totalMass;
+    }
+
+    currentMassKg (): number {
+        return this.sumMass(this.cargoItems) + this.sumMass(this.astronauts);
+    }
+
+    canAdd (item: Payload): boolean {
+        return (this.currentMassKg() + item.massKg) <= this.totalCapacityKg;
+    }
+
+    addCargo (cargo:Cargo) {
+        if (this.canAdd(cargo)) {
+            this.cargoItems.push(cargo);
+        }
     }
 }
  let testRocket = new Rocket('larry', 123123);
